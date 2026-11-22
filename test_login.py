@@ -40,11 +40,13 @@ def test_add_product_to_cart(page: Page) -> None:
 def test_product_is_displayed_in_cart(page: Page) -> None:
     login(page)
     page.locator(BACKPACK).click()
+    expect(page.locator(CART_BADGE)).to_have_text("1")
     page.locator('[data-test="shopping-cart-link"]').click()
 
     expect(page).to_have_url(f"{BASE_URL}/cart.html")
-    expect(page.locator('[data-test="inventory-item-name"]')).to_have_text(
-        "Sauce Labs Backpack"
+    cart = page.locator('[data-test="cart-list"]')
+    expect(cart.locator('[data-test="inventory-item-name"]')).to_have_text(
+        ["Sauce Labs Backpack"]
     )
 
 
